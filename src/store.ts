@@ -35,8 +35,6 @@ export default new Vuex.Store({
   actions: {
     async commitUrls({commit}: any, options : {giphy: string; limit : number;}): Promise<any> {
 
-      // if (this.getters.getQuery === options.giphy) return;
-
       var url : string = "https://api.giphy.com/v1/gifs/search";
       var urls : any =
         await fetch(`${url}?q=${options.giphy}&api_key=${API_KEY.key}&limit=${options.limit}`)
