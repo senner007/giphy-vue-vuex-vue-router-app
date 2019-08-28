@@ -1,6 +1,6 @@
 <template>
   <div class="giphy-search">
-    <h3>Search for giphys</h3>
+    <h3>Search for giphys!</h3>
     <input ref="inputSearch" v-model="inputField" type="text" v-on:keyup.enter="pushRoute">
     <button @click="pushRoute">Fetch</button>
   </div>
