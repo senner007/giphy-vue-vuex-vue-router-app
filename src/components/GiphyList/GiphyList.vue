@@ -58,8 +58,8 @@ export default class GiphyList extends Vue {
   }
 
   get srcUrlSingle() {
-    if (this.getUrls.length < 1) return "" ;
-    return this.getUrls[this.$route.params.id -1].images.fixed_height.url;
+    if (!this.getUrls.length) return "";
+    return this.getUrls[Number(this.$route.params.id) -1].images.fixed_height.url;
   }
 
   displayUrls(result : Array<IImagesMeta> = this.getUrls): void {
@@ -82,7 +82,7 @@ export default class GiphyList extends Vue {
   }
 
   @Watch("getUrls")
-  onUrlsChange(val : any, oldVal : IImagesMeta[] | Object):  void {
+  onUrlsChange(val : IImagesMeta[], oldVal : IImagesMeta[] | Object):  void {
     this.amount = 0;
     this.giphyUrls = [];
     this.displayUrls(val.urls);
