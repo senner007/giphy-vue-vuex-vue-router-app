@@ -1,3 +1,21 @@
+<template>
+  <div id="giphy-list">
+    <h1>/{{ query }}{{queryId ? "/" + queryId : "" }}</h1>
+    <h1 v-if="isNaN(queryId)">{{ imagesLoadedMessage }}</h1>
+      <div v-if="isNaN(queryId)">
+        <span class="giphy-item" v-for="(element, index) in giphyUrls" :key="index"> 
+        <router-link :to="'/' + $store.getters.getQuery + '/' + (index +1)" >
+          <Giphy @imageDone='imageDone' :captionText="$store.getters.getQuery +  ' ' + (index + 1).toString()" :srcUrl="element" />
+        </router-link>
+        </span> 
+      </div>
+     <div v-else>
+        <Giphy v-if="srcUrlSingle != ''" @imageDone='imageDone' :captionText="query +  ' ' + (queryId).toString()" :srcUrl="srcUrlSingle"/>
+      </div> 
+  </div>
+</template>
+
+<script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Giphy from "@/components/Giphy/Giphy.vue"; // @ is an alias to /src
 
@@ -14,7 +32,7 @@ export interface IImagesMeta {
     Giphy
   }
 })
-export default class Giphys extends Vue {
+export default class GiphyList extends Vue {
   @Prop() private queryId!: number;
   @Prop() private query!: string;
 
@@ -68,3 +86,16 @@ export default class Giphys extends Vue {
     this.displayUrls(val);
   }
 }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="less">
+  #giphy-list {
+    margin: 20px;
+  }
+
+  .giphy-item {
+    margin: 8px; 
+  }
+  
+</style>

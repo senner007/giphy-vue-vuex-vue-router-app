@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import IImagesMeta from "./components/Giphys/Giphys";
+import IImagesMeta from "./components/GiphyList/GiphyList.vue";
 import API_KEY from "./assets/api_key";
 
 
