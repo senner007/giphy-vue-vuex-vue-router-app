@@ -85,7 +85,7 @@ export default class GiphyList extends Vue {
   onUrlsChange(val : IImagesMeta[], oldVal : IImagesMeta[] | Object):  void {
     this.amount = 0;
     this.giphyUrls = [];
-    this.displayUrls(val.urls);
+    this.displayUrls(val);
   }
 }
 </script>
