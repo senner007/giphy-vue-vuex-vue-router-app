@@ -5,6 +5,7 @@
 - throttle image loading - done!
 - handle not found images - done!
 - add github actions CI - done!
+- improve styling with vue-bootstrap
 - fix input focus
 
 ## Project setup
