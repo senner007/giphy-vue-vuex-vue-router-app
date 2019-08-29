@@ -40,7 +40,6 @@ export default class GiphyList extends Vue {
   imagesLoadedMessage : string = "";
   totalAmount : number = isNaN(this.queryId) ? 50 : 1;
   amount : number = 0;
-  srcUrlSingle : string = "";
 
   imageDone(): void{
      this.amount ++;
@@ -58,6 +57,11 @@ export default class GiphyList extends Vue {
     return this.$store.getters.getUrls;
   }
 
+  get srcUrlSingle() {
+    if (this.getUrls.length < 1) return "" ;
+    return this.getUrls[this.$route.params.id -1].images.fixed_height.url;
+  }
+
   displayUrls(result : Array<IImagesMeta> = this.getUrls): void {
     if (result.length < 1) {
       this.imagesLoadedMessage = "Nothing found";
@@ -73,17 +77,15 @@ export default class GiphyList extends Vue {
           }
           this.giphyUrls.push(element.images.fixed_height.url);
         }
-      } else {
-          this.srcUrlSingle = result[this.queryId -1].images.fixed_height.url;
       }
     });
   }
 
   @Watch("getUrls")
-  onUrlsChange(val : IImagesMeta[], oldVal : IImagesMeta[] | Object):  void {
+  onUrlsChange(val : any, oldVal : IImagesMeta[] | Object):  void {
     this.amount = 0;
     this.giphyUrls = [];
-    this.displayUrls(val);
+    this.displayUrls(val.urls);
   }
 }
 </script>
