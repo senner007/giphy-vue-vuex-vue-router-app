@@ -2,8 +2,9 @@
 - https://nielshtg.dk
 
 ## TODO 
-- throttle image loading - done
-- handle not found images - done
+- throttle image loading - done!
+- handle not found images - done!
+- add github actions CI - done!
 - fix input focus
 
 ## Project setup
