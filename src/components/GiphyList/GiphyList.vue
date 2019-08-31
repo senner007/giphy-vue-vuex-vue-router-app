@@ -1,16 +1,16 @@
 <template>
   <div id="giphy-list">
-    <h1>/{{ query }}{{queryId ? "/" + queryId : "" }}</h1>
+    <h1>/{{ query }}{{queryId ? `/${queryId}` : "" }}</h1>
     <h1 v-if="isNaN(queryId)">{{ imagesLoadedMessage }}</h1>
       <div v-if="isNaN(queryId)">
         <span class="giphy-item" v-for="(url, index) in giphyUrls" :key="index"> 
-        <router-link :to="'/' + $store.getters.getQuery + '/' + (index +1)" >
-          <Giphy @imageDone='imageDone' :captionText="$store.getters.getQuery +  ' ' + (index + 1).toString()" :srcUrl="url" />
+        <router-link :to="`/${query}/${(index +1)}`" >
+          <Giphy @imageDone='imageDone' :captionText="`${query} ${(index + 1).toString()}`" :srcUrl="url" />
         </router-link>
         </span> 
       </div>
      <div v-else>
-        <Giphy v-if="srcUrlSingle != ''" :captionText="query +  ' ' + (queryId).toString()" :srcUrl="srcUrlSingle"/>
+        <Giphy v-if="srcUrlSingle != ''" :captionText="`${query} ${queryId.toString()}`" :srcUrl="srcUrlSingle"/>
       </div> 
   </div>
 </template>

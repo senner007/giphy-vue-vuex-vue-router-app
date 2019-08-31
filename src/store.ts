@@ -26,9 +26,6 @@ export default new Vuex.Store({
   getters : {
     getUrls (state : IState): Array<string> | null {
       return state.urls;
-    },
-    getQuery (state : IState): string {
-      return state.query;
     }
   },
   mutations: {
