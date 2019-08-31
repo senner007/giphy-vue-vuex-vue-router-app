@@ -35,7 +35,7 @@ export default class GiphyList extends Vue {
 
   imageDone(): void{
     this.throttle.increase();
-    this.imagesLoadedMessage = this.throttle._isDone ? "Done!" : "Fetching...";
+    this.imagesLoadedMessage = this.throttle.isDone ? "Done!" : "Fetching...";
   }
 
   get getUrls(): Array<string> {
@@ -52,11 +52,10 @@ export default class GiphyList extends Vue {
 
     this.giphyUrls = [];
     this.$nextTick(() => {
-        if (isNaN(this.queryId)) {
+      if (isNaN(this.queryId)) {
       this.throttle = new Throttle<string>(val, this.giphyUrls)
      }
     });
-
   }
 }
 </script>
