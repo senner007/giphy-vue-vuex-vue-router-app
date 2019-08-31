@@ -2,7 +2,7 @@
   <span>
     <figure>
         <div class="divCaption">{{!isBroken ? captionText : "Image is Broken"}}</div>
-        <img v-show="!isBroken && !imageShown" class="giphy-image" src="../../assets/giphy.gif">
+        <img v-show="!isBroken && !imageShown" class="giphy-image" src="../../assets/loader.gif">
         <span v-images-loaded="imageOnLoad" >
           <img ref="image" class="giphy-image remote" v-show="imageShown" :src="srcUrl" >
         </span>
@@ -25,7 +25,7 @@
       @Prop() public srcUrl!: string;
       @Prop() private captionText!: string;
       imageShown : boolean = false;
-      isBroken = false;
+      isBroken : boolean = false;
       imageOnLoad(inst : LoadedInstance): void {
           if (inst.images[0].isLoaded) {
               this.imageShown = true;

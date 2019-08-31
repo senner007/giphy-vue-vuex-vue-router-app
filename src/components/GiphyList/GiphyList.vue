@@ -3,14 +3,14 @@
     <h1>/{{ query }}{{queryId ? "/" + queryId : "" }}</h1>
     <h1 v-if="isNaN(queryId)">{{ imagesLoadedMessage }}</h1>
       <div v-if="isNaN(queryId)">
-        <span class="giphy-item" v-for="(element, index) in giphyUrls" :key="index"> 
+        <span class="giphy-item" v-for="(url, index) in giphyUrls" :key="index"> 
         <router-link :to="'/' + $store.getters.getQuery + '/' + (index +1)" >
-          <Giphy @imageDone='imageDone' :captionText="$store.getters.getQuery +  ' ' + (index + 1).toString()" :srcUrl="element" />
+          <Giphy @imageDone='imageDone' :captionText="$store.getters.getQuery +  ' ' + (index + 1).toString()" :srcUrl="url" />
         </router-link>
         </span> 
       </div>
      <div v-else>
-        <Giphy v-if="srcUrlSingle != ''" @imageDone='imageDone' :captionText="query +  ' ' + (queryId).toString()" :srcUrl="srcUrlSingle"/>
+        <Giphy v-if="srcUrlSingle != ''" :captionText="query +  ' ' + (queryId).toString()" :srcUrl="srcUrlSingle"/>
       </div> 
   </div>
 </template>
@@ -18,14 +18,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import Giphy from "@/components/Giphy/Giphy.vue"; // @ is an alias to /src
-
-export interface IImagesMeta {
-  images : {
-    fixed_height : {
-      url : string;
-    };
-  };
-}
+import Throttle from "./helpers/Throttle"
 
 @Component({
   components: {
@@ -38,54 +31,32 @@ export default class GiphyList extends Vue {
 
   giphyUrls : string[] = [];
   imagesLoadedMessage : string = "";
-  totalAmount : number = isNaN(this.queryId) ? 50 : 1;
-  amount : number = 0;
+  throttle! : Throttle<string>;
 
   imageDone(): void{
-     this.amount ++;
-    if (this.amount === this.totalAmount) {
-      this.imagesLoadedMessage = "Loaded!";
-    } else {
-      this.imagesLoadedMessage = "Loading...";
-      if (this.amount % 4 === 0) {
-        this.displayUrls();
-      }
-    }
+    this.throttle.increase();
+    this.imagesLoadedMessage = this.throttle._isDone ? "Done!" : "Fetching...";
   }
 
-  get getUrls(): Array<IImagesMeta> {
+  get getUrls(): Array<string> {
     return this.$store.getters.getUrls;
   }
 
-  get srcUrlSingle() {
+  get srcUrlSingle() : string {
     if (!this.getUrls.length) return "";
-    return this.getUrls[Number(this.$route.params.id) -1].images.fixed_height.url;
-  }
-
-  displayUrls(result : Array<IImagesMeta> = this.getUrls): void {
-    if (result.length < 1) {
-      this.imagesLoadedMessage = "Nothing found";
-      return;
-    }
-    this.$nextTick(() => {
-      if (isNaN(this.queryId)) {
-        for (let i : number = this.amount; i < this.amount + 4; i++) {
-          let element : IImagesMeta = result[i];
-          if (!element) {
-            this.totalAmount = result.length;
-            return; // if for instance there are 27 and not 50
-          }
-          this.giphyUrls.push(element.images.fixed_height.url);
-        }
-      }
-    });
+    return this.getUrls[Number(this.$route.params.id) -1];
   }
 
   @Watch("getUrls")
-  onUrlsChange(val : IImagesMeta[], oldVal : IImagesMeta[] | Object):  void {
-    this.amount = 0;
+  onUrlsChange(val : string[], oldVal : string[] | Object):  void {
+
     this.giphyUrls = [];
-    this.displayUrls(val);
+    this.$nextTick(() => {
+        if (isNaN(this.queryId)) {
+      this.throttle = new Throttle<string>(val, this.giphyUrls)
+     }
+    });
+
   }
 }
 </script>

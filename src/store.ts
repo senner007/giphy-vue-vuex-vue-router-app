@@ -1,13 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import IImagesMeta from "./components/GiphyList/GiphyList.vue";
+
 import API_KEY from "./assets/api_key";
 
+export interface IImagesMeta {
+  images : {
+    fixed_height : {
+      url : string;
+    };
+  };
+}
 
 Vue.use(Vuex);
 
 interface IState {
-  urls : Array<IImagesMeta>;
+  urls : Array<string>;
   query : string;
 }
 
@@ -17,7 +24,7 @@ export default new Vuex.Store({
     query: ""
   },
   getters : {
-    getUrls (state : IState): Array<IImagesMeta> | null {
+    getUrls (state : IState): Array<string> | null {
       return state.urls;
     },
     getQuery (state : IState): string {
@@ -25,7 +32,7 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    addUrls (state : IState, urls : Array<IImagesMeta>): void {
+    addUrls (state : IState, urls : Array<string>): void {
       state.urls = urls;
     },
     setQuery (state : IState, query : string): void {
@@ -44,9 +51,10 @@ export default new Vuex.Store({
         await fetch(`${url}?q=${options.giphy}&api_key=${API_KEY.key}&limit=${options.limit}`)
         .then(res => res.json())
         .catch(error => console.error(error));
-        commit("addUrls", urls.data);
+        commit("addUrls", urls.data.map((v : IImagesMeta) => {
+          return v.images.fixed_height.url;
+        }));
         commit("setQuery", options.giphy);
-     
     }
   }
 });
