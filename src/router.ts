@@ -11,10 +11,8 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      beforeEnter: (to : any, from, next) => {
-        next({ path: "/query", replace : true });
-        next();
-      }
+      component: () =>
+      import(/* webpackChunkName: "about" */ "./App.vue")
     },
     {
       path: "/:query",
@@ -23,7 +21,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Query.vue")
+        import(/* webpackChunkName: "about" */ "./App.vue")
     },
     {
       path: "/:query/:id",
@@ -38,7 +36,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Query.vue")
+        import(/* webpackChunkName: "about" */ "./App.vue")
     }
   ]
 });

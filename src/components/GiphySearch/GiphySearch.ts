@@ -9,6 +9,7 @@ interface RouteObject {
 @Component
 export default class GiphySearch extends Vue {
     @Prop() private query!: string;
+    @Prop() private queryId!: number;
 
     inputField : string = "";
     amount : number = 50;
@@ -24,6 +25,7 @@ export default class GiphySearch extends Vue {
     }
 
     getGiphys (name : string = this.inputField): void {
+        console.log('fdfd');
         (this.$refs.inputSearch as HTMLInputElement).focus();
         this.$store.dispatch("commitUrls", {giphy: name, limit : this.amount});
     }

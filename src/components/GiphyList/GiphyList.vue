@@ -1,8 +1,7 @@
 <template>
   <div id="giphy-list">
-    <h1>/{{ query }}{{queryId ? `/${queryId}` : "" }}</h1>
       <div v-if="isNaN(queryId)">
-        <h1>{{ imagesLoadedMessage }}</h1>
+        <h1 v-if="query">{{ imagesLoadedMessage }}</h1>
         <span class="giphy-item" v-for="(url, index) in giphyUrls" :key="index"> 
           <router-link :to="`/${query}/${(index +1)}`" >
             <Giphy @imageDone='imageDone' :captionText="`${query} ${(index + 1).toString()}`" :srcUrl="url" />
