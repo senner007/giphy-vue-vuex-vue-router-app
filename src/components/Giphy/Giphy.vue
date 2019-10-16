@@ -1,12 +1,12 @@
 <template>
   <span>
     <figure>
-        <div class="divCaption">{{!isBroken ? captionText : "Image is Broken"}}</div>
+        <div v-if="!isSingle" class="divCaption">{{!isBroken ? captionText : "Image is Broken"}}</div>
         <img v-show="!isBroken && !imageShown" class="giphy-image" src="../../assets/loader.gif">
         <span v-images-loaded="imageOnLoad" >
-          <img ref="image" class="giphy-image remote" v-show="imageShown" :src="srcUrl" >
+          <img ref="image" class="giphy-image remote" v-bind:class="{ scale : isSingle }" v-show="imageShown" :src="srcUrl" >
         </span>
-        <img class="giphy-image" v-show="isBroken" src="../../assets/broken_giphy.gif"> 
+        <img class="giphy-image"  v-show="isBroken" src="../../assets/broken_giphy.gif"> 
     </figure>
   </span>
 </template>
@@ -14,7 +14,7 @@
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-  interface LoadedInstance {
+  interface ILoadedInstance {
       images : Array<any>;
       isBroken : boolean;
   }
@@ -24,9 +24,14 @@
 
       @Prop() public srcUrl!: string;
       @Prop() private captionText!: string;
+      @Prop() private isSingle!: boolean;
+
+      mounted () : void {
+          console.log(this.isSingle);
+      }
       imageShown : boolean = false;
       isBroken : boolean = false;
-      imageOnLoad(inst : LoadedInstance): void {
+      imageOnLoad(inst : ILoadedInstance): void {
           if (inst.images[0].isLoaded) {
               this.imageShown = true;
           } else {
@@ -44,6 +49,11 @@
     margin-top: 10px;
     border: 1px solid grey;
     max-width: 100%;
+  }
+
+  .scale {
+    margin-top: 50px;
+    transform: scale(1.5)
   }
 
   .divCaption {

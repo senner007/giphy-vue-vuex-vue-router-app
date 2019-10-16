@@ -9,7 +9,7 @@
         </span> 
       </div>
      <div v-else>
-        <Giphy v-if="srcUrlSingle != ''" :captionText="`${query} ${queryId.toString()}`" :srcUrl="srcUrlSingle"/>
+        <Giphy v-if="srcUrlSingle != ''" :captionText="`${query} ${queryId.toString()}`" :srcUrl="srcUrlSingle" :isSingle="true"/>
       </div> 
   </div>
 </template>
