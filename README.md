@@ -7,6 +7,7 @@
 - add github actions CI - done!
 - improve styling with vue-bootstrap
 - fix input focus
+- delete old files on server before upload
 
 ## Project setup
 ```

@@ -22,6 +22,7 @@ jobs:
        FTP_USERNAME :  ${{ secrets.FTP_USERNAME }}
        LOCAL_DIR :  ${{ secrets.LOCAL_DIR }}
        REMOTE_DIR :  ${{ secrets.REMOTE_DIR }}
+       ARGS: --delete
     - name: Run unit tests
       run: npm run test:unit
     
