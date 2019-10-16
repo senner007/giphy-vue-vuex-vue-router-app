@@ -14,7 +14,7 @@ jobs:
     - name: Compile and minify for production
       run: npm run build
     - name : FTP-Deploy
-      uses: SamKirkland/FTP-Deploy-Action@master
+      uses: SamKirkland/FTP-Deploy-Action@2.0.0
       env: 
        GITHUB_TOKEN :  ${{ secrets.GITHUB_TOKEN }}
        FTP_SERVER :  ${{ secrets.FTP_SERVER }}
