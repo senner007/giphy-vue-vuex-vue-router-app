@@ -5,9 +5,11 @@
 - throttle image loading - done!
 - handle not found images - done!
 - add github actions CI - done!
+- delete old files on server before upload - done
 - improve styling with vue-bootstrap
 - fix input focus
-- delete old files on server before upload
+- add https with dev
+- copy htaccess file on deploy
 
 ## Project setup
 ```
