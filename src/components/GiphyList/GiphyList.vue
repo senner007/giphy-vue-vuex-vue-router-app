@@ -48,7 +48,6 @@ export default class GiphyList extends Vue {
 
   @Watch("getUrls")
   onUrlsChange(val : string[], oldVal : string[] | Object):  void {
-
     this.giphyUrls = [];
     if (val.length === 0) {
       this.imagesLoadedMessage = "Not found"

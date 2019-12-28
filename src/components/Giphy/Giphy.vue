@@ -26,9 +26,6 @@
       @Prop() private captionText!: string;
       @Prop() private isSingle!: boolean;
 
-      mounted () : void {
-          console.log(this.isSingle);
-      }
       imageShown : boolean = false;
       isBroken : boolean = false;
       imageOnLoad(inst : ILoadedInstance): void {

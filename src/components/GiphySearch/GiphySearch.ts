@@ -9,19 +9,13 @@ interface RouteObject {
 @Component
 export default class GiphySearch extends Vue {
     @Prop() private query!: string;
-     @Prop() private queryId!: number;
+    @Prop() private queryId!: number;
 
     inputField : string = "";
     amount : number = 50;
 
     pushRoute(): void {
         this.$router.push({ path: "/" + this.inputField });
-    }
-
-    mounted(): void {
-        if (this.query !== "query") {
-            this.getGiphys(this.query);
-        }
     }
 
     getGiphys (name : string = this.inputField): void {
@@ -32,7 +26,9 @@ export default class GiphySearch extends Vue {
     @Watch("$route")
     onRouteChange(val : RouteObject, oldVal : RouteObject): void {
       this.inputField = "";
-      this.getGiphys(val.params.query);
+      if (val.params.query) {
+        this.getGiphys(val.params.query);
+      }
     }
 
 }

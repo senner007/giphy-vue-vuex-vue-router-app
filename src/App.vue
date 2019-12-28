@@ -8,7 +8,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import GiphyList from "@/components/GiphyList/GiphyList.vue"; // @ is an alias to /src
-
 import GiphySearch from "@/components/GiphySearch/GiphySearch"; // @ is an alias to /src
 
 @Component({
