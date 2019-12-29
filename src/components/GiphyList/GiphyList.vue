@@ -1,7 +1,7 @@
 <template>
-  <div id="giphy-list">
-      <div v-if="isNaN(queryId)">
-        <h1 v-if="query">{{ imagesLoadedMessage }}</h1>
+  <div v-if="query" id="giphy-list">
+      <div v-if="!queryId">
+        <h1>{{ imagesLoadedMessage }}</h1>
         <span class="giphy-item" v-for="(url, index) in giphyUrls" :key="index"> 
           <router-link :to="`/${query}/${(index +1)}`" >
             <Giphy @imageDone='imageDone' :captionText="`${query} ${(index + 1).toString()}`" :srcUrl="url" />
@@ -9,7 +9,7 @@
         </span> 
       </div>
      <div v-else>
-        <Giphy v-if="srcUrlSingle != ''" :captionText="`${query} ${queryId.toString()}`" :srcUrl="srcUrlSingle" :isSingle="true"/>
+        <Giphy v-if="srcUrlSingle" :captionText="`${query} ${queryId.toString()}`" :srcUrl="srcUrlSingle" :isSingle="true"/>
       </div> 
   </div>
 </template>
@@ -41,16 +41,16 @@ export default class GiphyList extends Vue {
     return this.$store.getters.getUrls;
   }
 
-  get srcUrlSingle() : string {
-    if (!this.getUrls.length) return "";
+  get srcUrlSingle() : string | boolean {
+    if (!this.getUrls.length) return false;
     return this.getUrls[Number(this.$route.params.id) -1];
   }
-
+ 
   @Watch("getUrls")
   onUrlsChange(val : string[], oldVal : string[] | Object):  void {
     this.giphyUrls = [];
-    if (val.length === 0) {
-      this.imagesLoadedMessage = "Not found"
+    if (val.length === 0 && this.query) {
+      this.imagesLoadedMessage = "Not found";
       return;
     }
     this.$nextTick(() => {

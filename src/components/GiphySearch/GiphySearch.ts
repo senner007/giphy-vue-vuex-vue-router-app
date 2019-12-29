@@ -15,7 +15,6 @@ export default class GiphySearch extends Vue {
     amount : number = 50;
 
     pushRoute(): void {
-        if (!this.inputField) return;
         this.$router.push({ path: "/" + this.inputField });
     }
 
@@ -26,10 +25,8 @@ export default class GiphySearch extends Vue {
 
     @Watch("$route")
     onRouteChange(val : RouteObject, oldVal : RouteObject): void {
-      if (val.params.query) {
         this.inputField = "";
         this.getGiphys(val.params.query);
-      }
     }
 
 }
